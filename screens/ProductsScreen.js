@@ -8,13 +8,16 @@ import PRODUCTS from '../data/dummy-data';
 
 const ProductsScreen = () => {
   return (
-    <View>
+    <View style={{ height: '100%' }}>
       <Text>Some products</Text>
-      <FlatList
-        data={PRODUCTS}
-        renderItem={({item}) => (<ProductCard title={item.title} uri={item.imageUrl} />)}
-        keyExtractor={(product) => product.id}
-      />
+      <View style={styles.list}>
+        <FlatList
+          data={PRODUCTS}
+          renderItem={({ item }) => (<ProductCard title={item.title} uri={item.imageUrl} />)}
+          keyExtractor={(product) => product.id}
+          style={{ width: '100%' }}
+        />
+      </View>
     </View>
   )
 };
@@ -24,8 +27,11 @@ ProductsScreen.navigationOptions = (navigationData) => ({
 });
 
 const styles = StyleSheet.create({
-  card: {
-    
+  list: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20
   }
 });
 
