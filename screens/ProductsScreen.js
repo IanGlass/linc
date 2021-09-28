@@ -6,14 +6,14 @@ import ProductCard from '../components/ProductCard';
 
 import PRODUCTS from '../data/dummy-data';
 
-const ProductsScreen = () => {
+const ProductsScreen = ({ navigation }) => {
   return (
     <View style={{ height: '100%' }}>
       <Text>Some products</Text>
       <View style={styles.list}>
         <FlatList
           data={PRODUCTS}
-          renderItem={({ item }) => (<ProductCard title={item.title} uri={item.imageUrl} />)}
+          renderItem={({ item }) => (<ProductCard onClickDetails={() => navigation.navigate('ProductDetails', { productId: item.id })} title={item.title} uri={item.imageUrl} />)}
           keyExtractor={(product) => product.id}
           style={{ width: '100%' }}
         />

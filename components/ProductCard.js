@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, Button, StyleSheet } from 'react-native';
 
-const ProductCard = ({ title, uri }) => {
+const ProductCard = ({ title, uri, onClickDetails }) => {
   return (
     <View style={styles.card}>
       <Image
@@ -9,7 +9,7 @@ const ProductCard = ({ title, uri }) => {
         source={{ uri }}
       />
       <View style={styles.detailsContainer}>
-        <Button title="Details" />
+        <Button onPress={onClickDetails} title="Details" />
         <Text style={styles.title}>{title}</Text>
         <Button title="Cart" />
       </View>
