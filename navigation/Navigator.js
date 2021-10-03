@@ -15,7 +15,7 @@ const ProductsNavigator = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="ProductsList"
+        name='ProductsList'
         options={{
           title: 'Shop',
           headerLeft: (props) => (
@@ -33,7 +33,7 @@ const ProductsNavigator = ({ navigation }) => {
         component={ProductsScreen}
       />
       <Stack.Screen
-        name="ProductDetails"
+        name='ProductDetails'
         component={ProductDetailsScreen}
         options={{
           title: 'Shop'
@@ -47,10 +47,10 @@ const MainNavigator = () => {
   return (
     <Drawer.Navigator>
       <Drawer.Screen
-        name="Products"
+        name='Shop'
         component={ProductsNavigator}
         options={{
-          title: "Drawer",
+          title: 'Shop',
         }}
       />
     </Drawer.Navigator>
