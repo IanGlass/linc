@@ -22,10 +22,6 @@ const ProductsScreen = ({ navigation }) => {
   )
 };
 
-ProductsScreen.navigationOptions = (navigationData) => ({
-  headerTitle: 'Shop'
-});
-
 const styles = StyleSheet.create({
   list: {
     flex: 1,

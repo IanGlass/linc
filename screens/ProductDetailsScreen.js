@@ -4,13 +4,11 @@ import { View, Text, Image, Button, StyleSheet } from 'react-native';
 
 import PRODUCTS from '../data/dummy-data';
 
-const ProductDetailsScreen = ({ navigation }) => {
-  const productId = navigation.getParam('productId');
-
-  const product = _.find(PRODUCTS, (product) => product.id === productId);
+const ProductDetailsScreen = ({ navigation, route }) => {
+  const product = _.find(PRODUCTS, (product) => product.id === route.params.productId);
 
   useEffect(() => {
-    navigation.setParams({ title: product.title });
+    navigation.setOptions({ headerTitle: product.title });
   }, [product]);
 
   return (
@@ -26,15 +24,11 @@ const ProductDetailsScreen = ({ navigation }) => {
         <Text>{product.description}</Text>
       </View>
       <View style={styles.button}>
-        <Button title="Add to Cart" />      
+        <Button title="Add to Cart" />
       </View>
     </View>
   );
 };
-
-ProductDetailsScreen.navigationOptions = (navigationData) => ({
-  headerTitle: navigationData.navigation.getParam('title')
-});
 
 const styles = StyleSheet.create({
   button: {
