@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-redux';
+
+import store from './store/store';
+
 
 import Navigator from './navigation/Navigator';
 
@@ -26,7 +30,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Navigator />
+      <Provider store={store}>
+
+        <Navigator />
+      </Provider>
+
     </NavigationContainer>
   );
 }
