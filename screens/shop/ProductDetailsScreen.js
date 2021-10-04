@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 import { View, Text, Image, Button, StyleSheet } from 'react-native';
 
-import PRODUCTS from '../data/dummy-data';
+import { addToCart } from '../../store/actions/products';
 
-const ProductDetailsScreen = ({ navigation, route }) => {
-  const product = _.find(PRODUCTS, (product) => product.id === route.params.productId);
+const ProductDetailsScreen = ({ navigation, route, products, addToCart }) => {
+  const product = _.find(products, (product) => product.id === route.params.productId);
 
   useEffect(() => {
     navigation.setOptions({ headerTitle: product.title });
@@ -24,7 +25,10 @@ const ProductDetailsScreen = ({ navigation, route }) => {
         <Text>{product.description}</Text>
       </View>
       <View style={styles.button}>
-        <Button title="Add to Cart" />
+        <Button 
+          title="Add to Cart"
+          onPress={() => addToCart(product)}
+           />
       </View>
     </View>
   );
@@ -45,4 +49,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProductDetailsScreen;
+const mapStateToProps = state => ({
+  products: state.products.products
+});
+
+const mapDispatchToProps = dispatch => ({
+  addToCart: (product) => dispatch(addToCart(product))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetailsScreen);

@@ -5,8 +5,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { AntDesign } from '@expo/vector-icons';
 import { HeaderBackButton } from '@react-navigation/stack';
 
-import ProductsScreen from '../screens/ProductsScreen';
-import ProductDetailsScreen from '../screens/ProductDetailsScreen';
+import ProductsScreen from '../screens/shop/ProductsScreen';
+import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
+import CartScreen from  '../screens/shop/CartScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -28,6 +29,19 @@ const ProductsNavigator = ({ navigation }) => {
                 />
               )}
             />
+          ),
+          headerRight: (props) => (
+            <HeaderBackButton
+              onPress={() => navigation.navigate('Cart')}
+              backImage={() => (
+                <AntDesign
+                  name='shoppingcart'
+                  size={25}
+                  color='black'
+                  style={{ marginRight: 5 }}
+                />
+              )}
+            />
           )
         }}
         component={ProductsScreen}
@@ -37,6 +51,13 @@ const ProductsNavigator = ({ navigation }) => {
         component={ProductDetailsScreen}
         options={{
           title: 'Shop'
+        }}
+      />
+      <Stack.Screen
+        name='Cart'
+        component={CartScreen}
+        options={{
+          title: 'Cart'
         }}
       />
     </Stack.Navigator>
