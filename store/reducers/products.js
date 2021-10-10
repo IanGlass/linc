@@ -2,8 +2,8 @@ import _ from 'lodash';
 import PRODUCTS from '../../data/dummy-data';
 
 const initialState = {
-  products: PRODUCTS,
-  cart: []
+  availableProducts: PRODUCTS,
+  userProducts: _.filter(PRODUCTS, (product) => product.ownerId === 'u1')
 };
 
 const productsReducer = (state = initialState, action) => {

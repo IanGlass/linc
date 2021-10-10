@@ -4,21 +4,31 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { AntDesign } from '@expo/vector-icons';
 import { HeaderBackButton } from '@react-navigation/stack';
+import { Platform } from 'react-native';
 
 import ProductsScreen from '../screens/shop/ProductsScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
-import CartScreen from  '../screens/shop/CartScreen';
+import CartScreen from '../screens/shop/CartScreen';
+
+import Colors from '../constants/Colors';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const ProductsNavigator = ({ navigation }) => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
+        },
+        headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary
+      }}
+    >
       <Stack.Screen
         name='ProductsList'
         options={{
-          title: 'Shop',
+          title: 'All Products',
           headerLeft: (props) => (
             <HeaderBackButton
               onPress={() => navigation.openDrawer()}

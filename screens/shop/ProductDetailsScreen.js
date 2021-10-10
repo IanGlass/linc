@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  products: state.products.products
+  products: state.products.availableProducts
 });
 
 const mapDispatchToProps = dispatch => ({

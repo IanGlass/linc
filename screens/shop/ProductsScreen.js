@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 
-import ProductCard from '../../components/ProductCard';
+import ProductCard from '../../components/shop/ProductCard';
 
 const ProductsScreen = ({ navigation, products }) => {
   return (
@@ -12,7 +12,14 @@ const ProductsScreen = ({ navigation, products }) => {
       <View style={styles.list}>
         <FlatList
           data={products}
-          renderItem={({ item }) => (<ProductCard onClickDetails={() => navigation.navigate('ProductDetails', { productId: item.id })} title={item.title} uri={item.imageUrl} />)}
+          renderItem={({ item }) => (
+            <ProductCard
+              onClickDetails={() => navigation.navigate('ProductDetails', { productId: item.id })}
+              title={item.title}
+              uri={item.imageUrl}
+              price={item.price}
+            />
+          )}
           keyExtractor={(product) => product.id}
           style={{ width: '100%' }}
         />
@@ -31,7 +38,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  products: state.products.products
+  products: state.products.availableProducts
 });
 
 export default connect(mapStateToProps, undefined)(ProductsScreen);
