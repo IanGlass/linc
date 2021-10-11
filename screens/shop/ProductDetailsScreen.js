@@ -25,10 +25,10 @@ const ProductDetailsScreen = ({ navigation, route, products, addToCart }) => {
         <Text>{product.description}</Text>
       </View>
       <View style={styles.button}>
-        <Button 
+        <Button
           title="Add to Cart"
           onPress={() => addToCart(product)}
-           />
+        />
       </View>
     </View>
   );

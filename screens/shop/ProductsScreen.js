@@ -8,7 +8,6 @@ import ProductCard from '../../components/shop/ProductCard';
 const ProductsScreen = ({ navigation, products }) => {
   return (
     <View style={{ height: '100%' }}>
-      <Text>Some products</Text>
       <View style={styles.list}>
         <FlatList
           data={products}
