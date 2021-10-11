@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { Platform } from 'react-native';
 
@@ -38,7 +38,8 @@ const ProductsNavigator = ({ navigation }) => {
               backImage={() => (
                 <AntDesign
                   name='bars'
-                  size={25}
+                  size={23}
+                  color={Platform.OS === 'android' ? 'white' : Colors.primary}
                 />
               )}
             />
@@ -47,10 +48,10 @@ const ProductsNavigator = ({ navigation }) => {
             <HeaderBackButton
               onPress={() => navigation.navigate('Cart')}
               backImage={() => (
-                <AntDesign
-                  name='shoppingcart'
-                  size={25}
-                  color='black'
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+                  size={23}
+                  color={Platform.OS === 'android' ? 'white' : Colors.primary}
                   style={{ marginRight: 5 }}
                 />
               )}
