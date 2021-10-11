@@ -89,11 +89,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
+    fontFamily: 'open-sans-bold',
     fontSize: 18,
     marginVertical: 3,
-    width: 100
+    width: 200,
+    textAlign: 'center'
   },
   price: {
+    fontFamily: 'open-sans-bold',
     fontSize: 14,
     color: '#888'
   }

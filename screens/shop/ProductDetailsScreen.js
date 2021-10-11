@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { View, Text, Image, Button, StyleSheet } from 'react-native';
+import { View, Text, Image, Button, ScrollView, StyleSheet } from 'react-native';
 
 import { addToCart } from '../../store/actions/products';
+
+import Colors from '../../constants/Colors';
 
 const ProductDetailsScreen = ({ navigation, route, products, addToCart }) => {
   const product = _.find(products, (product) => product.id === route.params.productId);
@@ -13,38 +15,46 @@ const ProductDetailsScreen = ({ navigation, route, products, addToCart }) => {
   }, [product]);
 
   return (
-    <View>
-      <Image
-        style={styles.image}
-        source={{ uri: product.imageUrl }}
-      />
-      <View style={styles.metaContainer}>
-        <Text>${product.price}</Text>
-      </View>
-      <View style={styles.metaContainer}>
-        <Text>{product.description}</Text>
-      </View>
-      <View style={styles.button}>
-        <Button
-          title="Add to Cart"
-          onPress={() => addToCart(product)}
+    <ScrollView>
+      <View>
+        <Image
+          style={styles.image}
+          source={{ uri: product.imageUrl }}
         />
+        <View style={styles.buttonsContainer}>
+          <Button
+            color={Colors.primary}
+            title="Add to Cart"
+            onPress={() => addToCart(product)}
+          />
+        </View>
+        <Text style={styles.price}>${product.price}</Text>
+        <Text style={styles.description}>{product.description}</Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    marginVertical: 5,
-    alignItems: 'center',
-  },
   image: {
     width: '100%',
-    height: 200
+    height: 300
   },
-  metaContainer: {
-    marginVertical: 5,
+  price: {
+    fontFamily: 'open-sans-bold',
+    fontSize: 20,
+    color: '#888',
+    textAlign: 'center',
+    marginVertical: 20
+  },
+  description: {
+    fontFamily: 'open-sans-bold',
+    fontSize: 14,
+    textAlign: 'center',
+    marginHorizontal: 20
+  },
+  buttonsContainer: {
+    marginVertical: 10,
     alignItems: 'center'
   }
 });
