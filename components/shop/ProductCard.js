@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'open-sans-bold',
     fontSize: 18,
-    marginVertical: 3,
+    marginVertical: 2,
     width: 200,
     textAlign: 'center'
   },

@@ -22,7 +22,10 @@ const ProductsNavigator = ({ navigation }) => {
         headerStyle: {
           backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
         },
-        headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary
+        headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary,
+        headerBackTitleStyle: {
+          fontFamily: 'open-sans'
+        }
       }}
     >
       <Stack.Screen
