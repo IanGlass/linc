@@ -1,11 +1,13 @@
 // Shows all products and allows us to add to cart and show details
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 
 import ProductCard from '../../components/shop/ProductCard';
 
-const ProductsScreen = ({ navigation, products }) => {
+import { addToCart } from '../../store/actions/cart';
+
+const ProductsScreen = ({ navigation, products, addToCart }) => {
   return (
     <View style={{ height: '100%' }}>
       <View style={styles.list}>
@@ -14,6 +16,7 @@ const ProductsScreen = ({ navigation, products }) => {
           renderItem={({ item }) => (
             <ProductCard
               onClickDetails={() => navigation.navigate('ProductDetails', { productId: item.id })}
+              onAddCart={() => addToCart(item)}
               title={item.title}
               uri={item.imageUrl}
               price={item.price}
@@ -40,4 +43,8 @@ const mapStateToProps = state => ({
   products: state.products.availableProducts
 });
 
-export default connect(mapStateToProps, undefined)(ProductsScreen);
+const mapDispatchToProps = dispatch => ({
+  addToCart: (product) => dispatch(addToCart(product))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsScreen);

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { View, Text, Image, Button, ScrollView, StyleSheet } from 'react-native';
 
-import { addToCart } from '../../store/actions/products';
+import { addToCart } from '../../store/actions/cart';
 
 import Colors from '../../constants/Colors';
 
