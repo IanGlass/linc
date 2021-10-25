@@ -108,19 +108,6 @@ const OrdersNavigator = ({ navigation }) => {
                 />
               )}
             />
-          ),
-          headerRight: (props) => (
-            <HeaderBackButton
-              onPress={() => navigation.navigate('Cart')}
-              backImage={() => (
-                <Ionicons
-                  name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-                  size={23}
-                  color={Platform.OS === 'android' ? 'white' : Colors.primary}
-                  style={{ marginRight: 5 }}
-                />
-              )}
-            />
           )
         }}
       />
