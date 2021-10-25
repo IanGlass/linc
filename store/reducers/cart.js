@@ -45,6 +45,13 @@ const cartReducer = (state = initialState, action) => {
         totalAmount: state.totalAmount - product.productPrice
       }
 
+    case 'ADD_ORDER':
+      return {
+        ...state,
+        items: {},
+        totalAmount: 0
+      }
+
     default:
       return state;
   };
