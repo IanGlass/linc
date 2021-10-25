@@ -7,10 +7,18 @@ import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
 import CartItem from '../../components/shop/CartItem';
 
 import { removeFromCart } from '../../store/actions/cart';
+import { addOrder } from '../../store/actions/orders';
 
 import Colors from '../../constants/Colors';
 
-const CartScreen = ({ navigation, route, cart, totalAmount, removeFromCart }) => {
+const CartScreen = ({
+  navigation,
+  route,
+  cart,
+  totalAmount,
+  removeFromCart,
+  addOrder
+}) => {
   const cartArray = _.map(cart, (item, key) => ({
     id: key,
     ...item
@@ -26,6 +34,7 @@ const CartScreen = ({ navigation, route, cart, totalAmount, removeFromCart }) =>
           disabled={cartArray.length === 0}
           color={Colors.accent}
           title="Order Now"
+          onPress={() => addOrder(cartArray, totalAmount)}
         />
       </View>
       <FlatList
@@ -75,7 +84,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  removeFromCart: (productId) => dispatch(removeFromCart(productId))
+  removeFromCart: (productId) => dispatch(removeFromCart(productId)),
+  addOrder: (cartItems, totalAmount) => dispatch(addOrder(cartItems, totalAmount))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);
