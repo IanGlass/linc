@@ -2,13 +2,14 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { Platform } from 'react-native';
 
 import ProductsScreen from '../screens/shop/ProductsScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
+import OrdersScreen from '../screens/shop/OrdersScreen';
 
 import Colors from '../constants/Colors';
 
@@ -36,8 +37,8 @@ const ProductsNavigator = ({ navigation }) => {
             <HeaderBackButton
               onPress={() => navigation.openDrawer()}
               backImage={() => (
-                <AntDesign
-                  name='bars'
+                <Ionicons
+                  name='menu'
                   size={23}
                   color={Platform.OS === 'android' ? 'white' : Colors.primary}
                 />
@@ -78,6 +79,55 @@ const ProductsNavigator = ({ navigation }) => {
   )
 };
 
+const OrdersNavigator = ({ navigation }) => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
+        },
+        headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary,
+        headerBackTitleStyle: {
+          fontFamily: 'open-sans'
+        }
+      }}
+    >
+      <Stack.Screen
+        name='Orders'
+        component={OrdersScreen}
+        options={{
+          title: 'Your Orders',
+          headerLeft: (props) => (
+            <HeaderBackButton
+              onPress={() => navigation.openDrawer()}
+              backImage={() => (
+                <Ionicons
+                  name='menu'
+                  size={23}
+                  color={Platform.OS === 'android' ? 'white' : Colors.primary}
+                />
+              )}
+            />
+          ),
+          headerRight: (props) => (
+            <HeaderBackButton
+              onPress={() => navigation.navigate('Cart')}
+              backImage={() => (
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+                  size={23}
+                  color={Platform.OS === 'android' ? 'white' : Colors.primary}
+                  style={{ marginRight: 5 }}
+                />
+              )}
+            />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
 const MainNavigator = () => {
   return (
     <Drawer.Navigator>
@@ -86,6 +136,24 @@ const MainNavigator = () => {
         component={ProductsNavigator}
         options={{
           title: 'Shop',
+          drawerIcon: () => <Ionicons
+            name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+            size={23}
+            color={Platform.OS === 'android' ? Colors.primary : 'white'}
+          />
+        }}
+      />
+      <Drawer.Screen
+        name='Orders'
+        component={OrdersNavigator}
+        options={{
+          title: 'Orders',
+          drawerIcon: () => <Ionicons
+            name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+            size={23}
+            color={Platform.OS === 'android' ? Colors.primary : 'white'}
+            style={{ marginRight: 5 }}
+          />
         }}
       />
     </Drawer.Navigator>
