@@ -7,10 +7,10 @@ const initialState = {
 };
 
 const cartReducer = (state = initialState, action) => {
+  const items = state.items;
   switch (action.type) {
     case 'ADD_TO_CART':
       const { id, price, title } = action.product;
-      const items = state.items;
 
       if (items[id]) {
         items[id] = new CartItem(
@@ -27,6 +27,22 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         items,
         totalAmount: state.totalAmount + price
+      }
+
+    case 'REMOVE_FROM_CART':
+      const product = items[action.id];
+
+      if (!product || product.quantity < 2) {
+        delete items[action.id]
+      } else {
+        items[action.id].quantity = items[action.id].quantity - 1;
+        items[action.id].sum = items[action.id].quantity * items[action.id].productPrice;
+      }
+
+      return {
+        ...state,
+        items,
+        totalAmount: state.totalAmount - product.productPrice
       }
 
     default:

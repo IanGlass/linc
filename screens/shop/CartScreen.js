@@ -6,9 +6,11 @@ import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
 
 import CartItem from '../../components/shop/CartItem';
 
+import { removeFromCart } from '../../store/actions/cart';
+
 import Colors from '../../constants/Colors';
 
-const CartScreen = ({ navigation, route, cart, totalAmount }) => {
+const CartScreen = ({ navigation, route, cart, totalAmount, removeFromCart }) => {
   const cartArray = _.map(cart, (item, key) => ({
     id: key,
     ...item
@@ -33,6 +35,7 @@ const CartScreen = ({ navigation, route, cart, totalAmount }) => {
             quantity={item.quantity}
             title={item.productTitle}
             amount={item.sum}
+            onRemove={() => removeFromCart(item.id)}
           />
         )}
       />
@@ -72,7 +75,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  removeItems: (productId) => dispatch(removeItems(productId))
+  removeFromCart: (productId) => dispatch(removeFromCart(productId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);
