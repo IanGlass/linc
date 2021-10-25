@@ -18,6 +18,7 @@
     "expo-font": "~9.1.0",
     "expo-status-bar": "~1.0.3",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "0.63.3",
