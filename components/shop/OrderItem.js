@@ -21,7 +21,7 @@ const OrderItem = ({ totalAmount, date, items }) => {
         onPress={() => setShowDetails(!showDetails)}
       />
       {showDetails && 
-        <View>
+        <View style={styles.detailItems}>
           {_.map(items, (item) => (
             <CartItem
               key={item.id}
@@ -64,6 +64,9 @@ const styles = StyleSheet.create({
     fontFamily: 'open-sans',
     fontSize: 16,
     color: '#888'
+  },
+  detailItems: {
+    width: '100%'
   }
 });
 
