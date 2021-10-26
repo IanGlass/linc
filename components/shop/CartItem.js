@@ -12,7 +12,7 @@ const CartItem = ({ title, quantity, amount, onRemove }) => {
       </Text>
       <View style={styles.itemData}>
         <Text style={styles.mainText}>{amount}</Text>
-        <TouchableOpacity 
+        {onRemove && <TouchableOpacity 
           onPress={onRemove}
           style={styles.deleteButton}
           >
@@ -20,7 +20,7 @@ const CartItem = ({ title, quantity, amount, onRemove }) => {
             size={23}
             color="red"
           />
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
     </View>
   );
