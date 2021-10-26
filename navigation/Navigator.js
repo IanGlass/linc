@@ -10,6 +10,7 @@ import ProductsScreen from '../screens/shop/ProductsScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
+import UserProductsScreen from '../screens/user/UserProductsScreen';
 
 import Colors from '../constants/Colors';
 
@@ -115,6 +116,42 @@ const OrdersNavigator = ({ navigation }) => {
   )
 }
 
+const AdminNavigator = ({ navigation }) => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
+        },
+        headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary,
+        headerBackTitleStyle: {
+          fontFamily: 'open-sans'
+        }
+      }}
+    >
+      <Stack.Screen
+        name='User Products'
+        component={UserProductsScreen}
+        options={{
+          title: 'Your Products',
+          headerLeft: (props) => (
+            <HeaderBackButton
+              onPress={() => navigation.openDrawer()}
+              backImage={() => (
+                <Ionicons
+                  name='menu'
+                  size={23}
+                  color={Platform.OS === 'android' ? 'white' : Colors.primary}
+                />
+              )}
+            />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
+
 const MainNavigator = () => {
   return (
     <Drawer.Navigator>
@@ -124,7 +161,7 @@ const MainNavigator = () => {
         options={{
           title: 'Shop',
           drawerIcon: () => <Ionicons
-            name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+            name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
             size={23}
             color={Platform.OS === 'android' ? Colors.primary : 'white'}
           />
@@ -137,6 +174,19 @@ const MainNavigator = () => {
           title: 'Orders',
           drawerIcon: () => <Ionicons
             name={Platform.OS === 'android' ? 'md-list' : 'ios-list'}
+            size={23}
+            color={Platform.OS === 'android' ? Colors.primary : 'white'}
+            style={{ marginRight: 5 }}
+          />
+        }}
+      />
+      <Drawer.Screen
+        name='Admin'
+        component={AdminNavigator}
+        options={{
+          title: 'Admin',
+          drawerIcon: () => <Ionicons
+            name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
             size={23}
             color={Platform.OS === 'android' ? Colors.primary : 'white'}
             style={{ marginRight: 5 }}
