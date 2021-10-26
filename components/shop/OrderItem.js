@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
 import CartItem from './CartItem';
 
 import Colors from '../../constants/Colors';
+import _ from 'lodash';
 
-const OrderItem = ({ totalAmount, date }) => {
+const OrderItem = ({ totalAmount, date, items }) => {
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
     <View style={styles.orderItem}>
       <View style={styles.summary}>
@@ -13,9 +16,22 @@ const OrderItem = ({ totalAmount, date }) => {
         <Text style={styles.date}>{date}</Text>
       </View>
       <Button
-        title="Show Details"
+        title={showDetails ? "Hide Details" : "Show Details"}
         color={Colors.primary}
+        onPress={() => setShowDetails(!showDetails)}
       />
+      {showDetails && 
+        <View>
+          {_.map(items, (item) => (
+            <CartItem
+              key={item.id}
+              title={item.productTitle}
+              quantity={item.quantity}
+              amount={item.sum}
+            />
+          ))}
+        </View>
+      }
     </View>
   )
 };
@@ -42,11 +58,11 @@ const styles = StyleSheet.create({
   },
   totalAmount: {
     fontFamily: 'open-sans-bold',
-    fontSize:16
+    fontSize: 16
   },
   date: {
     fontFamily: 'open-sans',
-    fontSize:16,
+    fontSize: 16,
     color: '#888'
   }
 });
