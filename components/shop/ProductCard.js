@@ -12,7 +12,7 @@ import {
 
 import Colors from '../../constants/Colors';
 
-const ProductCard = ({ title, uri, price, onClickDetails, onAddCart }) => {
+const ProductCard = ({ title, uri, price, onSelect, onAddCart }) => {
   let TouchableComponent = TouchableOpacity;
 
   if (Platform.OS === 'android' && Platform.Version >= 21) {
@@ -21,7 +21,7 @@ const ProductCard = ({ title, uri, price, onClickDetails, onAddCart }) => {
 
   return (
     <TouchableComponent
-      onPress={onClickDetails}
+      onPress={onSelect}
       useForeground
     >
       <View style={styles.card}>
@@ -38,7 +38,7 @@ const ProductCard = ({ title, uri, price, onClickDetails, onAddCart }) => {
         <View style={styles.buttonsContainer}>
           <Button
             color={Colors.primary}
-            onPress={onClickDetails}
+            onPress={onSelect}
             title="View Details"
           />
           <Button

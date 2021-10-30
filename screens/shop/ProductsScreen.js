@@ -15,7 +15,7 @@ const ProductsScreen = ({ navigation, products, addToCart }) => {
           data={products}
           renderItem={({ item }) => (
             <ProductCard
-              onClickDetails={() => navigation.navigate('ProductDetails', { productId: item.id })}
+              onSelect={() => navigation.navigate('ProductDetails', { productId: item.id })}
               onAddCart={() => addToCart(item)}
               title={item.title}
               uri={item.imageUrl}
