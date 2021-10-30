@@ -11,6 +11,7 @@ import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
+import EditProductScreen from '../screens/user/EditProductScreen';
 
 import Colors from '../constants/Colors';
 
@@ -39,7 +40,7 @@ const ProductsNavigator = ({ navigation }) => {
               onPress={() => navigation.openDrawer()}
               backImage={() => (
                 <Ionicons
-                  name='menu'
+                  name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
                   size={23}
                   color={Platform.OS === 'android' ? 'white' : Colors.primary}
                 />
@@ -103,7 +104,7 @@ const OrdersNavigator = ({ navigation }) => {
               onPress={() => navigation.openDrawer()}
               backImage={() => (
                 <Ionicons
-                  name='menu'
+                  name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
                   size={23}
                   color={Platform.OS === 'android' ? 'white' : Colors.primary}
                 />
@@ -130,7 +131,7 @@ const AdminNavigator = ({ navigation }) => {
       }}
     >
       <Stack.Screen
-        name='User Products'
+        name='UserProducts'
         component={UserProductsScreen}
         options={{
           title: 'Your Products',
@@ -139,13 +140,33 @@ const AdminNavigator = ({ navigation }) => {
               onPress={() => navigation.openDrawer()}
               backImage={() => (
                 <Ionicons
-                  name='menu'
+                  name={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+                  size={23}
+                  color={Platform.OS === 'android' ? 'white' : Colors.primary}
+                />
+              )}
+            />
+          ),
+          headerRight: (props) => (
+            <HeaderBackButton
+              onPress={() => navigation.navigate('EditProduct')}
+              backImage={() => (
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
                   size={23}
                   color={Platform.OS === 'android' ? 'white' : Colors.primary}
                 />
               )}
             />
           )
+        }}
+      />
+      <Stack.Screen
+        name='EditProduct'
+        component={EditProductScreen}
+        options={{
+          title: 'Edit Product',
+          
         }}
       />
     </Stack.Navigator>
@@ -160,11 +181,13 @@ const MainNavigator = () => {
         component={ProductsNavigator}
         options={{
           title: 'Shop',
-          drawerIcon: () => <Ionicons
-            name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-            size={23}
-            color={Platform.OS === 'android' ? Colors.primary : 'white'}
-          />
+          drawerIcon: () => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+              size={23}
+              color={Platform.OS === 'android' ? Colors.primary : 'white'}
+            />
+          )
         }}
       />
       <Drawer.Screen

@@ -8,7 +8,7 @@ import { deleteProduct } from '../../store/actions/products';
 
 import Colors from '../../constants/Colors';
 
-const UserProductsScreen = ({ userProducts, deleteProduct }) => {
+const UserProductsScreen = ({ navigation, userProducts, deleteProduct }) => {
 
   return (
     <FlatList
@@ -22,6 +22,7 @@ const UserProductsScreen = ({ userProducts, deleteProduct }) => {
         >
           <Button
             color={Colors.primary}
+            onPress={() => navigation.navigate('EditProduct', { productId: item.id })}
             title="Edit"
           />
           <Button
