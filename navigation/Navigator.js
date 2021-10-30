@@ -166,6 +166,18 @@ const AdminNavigator = ({ navigation }) => {
         component={EditProductScreen}
         options={{
           title: 'Edit Product',
+          headerRight: (props) => (
+            <HeaderBackButton
+              onPress={() => navigation.navigate('EditProduct')}
+              backImage={() => (
+                <Ionicons
+                  name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+                  size={23}
+                  color={Platform.OS === 'android' ? 'white' : Colors.primary}
+                />
+              )}
+            />
+          )
           
         }}
       />
