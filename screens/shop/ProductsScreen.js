@@ -1,11 +1,18 @@
 // Shows all products and allows us to add to cart and show details
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, FlatList, StyleSheet } from 'react-native';
+import {
+  View,
+  FlatList,
+  Button,
+  StyleSheet
+} from 'react-native';
 
 import ProductCard from '../../components/shop/ProductCard';
 
 import { addToCart } from '../../store/actions/cart';
+
+import Colors from '../../constants/Colors';
 
 const ProductsScreen = ({ navigation, products, addToCart }) => {
   return (
@@ -16,11 +23,21 @@ const ProductsScreen = ({ navigation, products, addToCart }) => {
           renderItem={({ item }) => (
             <ProductCard
               onSelect={() => navigation.navigate('ProductDetails', { productId: item.id })}
-              onAddCart={() => addToCart(item)}
               title={item.title}
               uri={item.imageUrl}
               price={item.price}
-            />
+            >
+              <Button
+                color={Colors.primary}
+                onPress={() => navigation.navigate('ProductDetails', { productId: item.id })}
+                title="View Details"
+              />
+              <Button
+                color={Colors.primary}
+                onPress={() => addToCart(item)}
+                title="To Cart"
+              />
+            </ProductCard>
           )}
           keyExtractor={(product) => product.id}
           style={{ width: '100%' }}

@@ -3,16 +3,13 @@ import {
   View,
   Text,
   Image,
-  Button,
   StyleSheet,
   TouchableOpacity,
   TouchableNativeFeedback,
   Platform
 } from 'react-native';
 
-import Colors from '../../constants/Colors';
-
-const ProductCard = ({ title, uri, price, onSelect, onAddCart }) => {
+const ProductCard = ({ children, title, uri, price, onSelect }) => {
   let TouchableComponent = TouchableOpacity;
 
   if (Platform.OS === 'android' && Platform.Version >= 21) {
@@ -36,16 +33,7 @@ const ProductCard = ({ title, uri, price, onSelect, onAddCart }) => {
           <Text style={styles.price}>${price.toFixed(2)}</Text>
         </View>
         <View style={styles.buttonsContainer}>
-          <Button
-            color={Colors.primary}
-            onPress={onSelect}
-            title="View Details"
-          />
-          <Button
-            color={Colors.primary}
-            onPress={onAddCart}
-            title="To Cart"
-          />
+          {children}
         </View>
       </View>
     </TouchableComponent>
