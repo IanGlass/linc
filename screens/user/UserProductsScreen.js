@@ -14,7 +14,7 @@ const UserProductsScreen = ({ userProducts }) => {
           uri={item.imageUrl}
           title={item.title}
           price={item.price}
-          onClickDetails={() => { }}
+          onSelect={() => { }}
           onAddCart={() => { }}
         />
       )}
