@@ -8,11 +8,11 @@ const initialState = {
 
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case 'DELETE_PRODUCT':
       return {
         ...state,
-        cart: _.concat(state.cart, action.product)
-      }
+        userProducts: _.filter(state.userProducts, (product) => product.id !== action.id)
+      };
 
     default:
       return state;

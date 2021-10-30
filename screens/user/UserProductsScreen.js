@@ -4,9 +4,11 @@ import { FlatList, Button } from 'react-native';
 
 import ProductCard from '../../components/shop/ProductCard';
 
+import { deleteProduct } from '../../store/actions/products';
+
 import Colors from '../../constants/Colors';
 
-const UserProductsScreen = ({ userProducts }) => {
+const UserProductsScreen = ({ userProducts, deleteProduct }) => {
 
   return (
     <FlatList
@@ -24,6 +26,7 @@ const UserProductsScreen = ({ userProducts }) => {
           />
           <Button
             color={Colors.primary}
+            onPress={() => deleteProduct(item.id)}
             title="Delete"
           />
         </ProductCard>
@@ -33,11 +36,11 @@ const UserProductsScreen = ({ userProducts }) => {
 };
 
 const mapStateToProps = state => ({
-  userProducts: state.products.availableProducts
+  userProducts: state.products.userProducts
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   addToCart: (product) => dispatch(addToCart(product))
-// });
+const mapDispatchToProps = dispatch => ({
+  deleteProduct: (id) => dispatch(deleteProduct(id))
+});
 
-export default connect(mapStateToProps, undefined)(UserProductsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProductsScreen);
