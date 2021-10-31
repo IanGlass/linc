@@ -12,8 +12,6 @@ import { addOrder } from '../../store/actions/orders';
 import Colors from '../../constants/Colors';
 
 const CartScreen = ({
-  navigation,
-  route,
   cart,
   totalAmount,
   removeFromCart,
