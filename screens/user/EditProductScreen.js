@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
+import { HeaderBackButton } from '@react-navigation/stack';
+import { Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import _ from 'lodash';
+import { createProduct, updateProduct } from '../../store/actions/products';
 
-const EditProductScreen = ({ navigation, route, userProducts }) => {
+const EditProductScreen = ({ navigation, route, userProducts, createProduct, updateProduct }) => {
   const [title, setTitle] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [price, setPrice] = useState('');
@@ -13,12 +17,46 @@ const EditProductScreen = ({ navigation, route, userProducts }) => {
   const product = _.find(userProducts, (product) => product.id === _.get(route, 'params.productId'));
 
   useEffect(() => {
-    navigation.setOptions({ headerTitle: product ? `Edit ${product.title}` : 'Create New Product' });
     setTitle(_.get(product, 'title', ''));
-    setImageUrl(_.get(product, 'imageUrl' ,''));
+    setImageUrl(_.get(product, 'imageUrl', ''));
     setPrice(_.get(product, 'price', ''));
     setDescription(_.get(product, 'description', ''));
   }, [product]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: product ? `Edit ${product.title}` : 'Create New Product',
+      headerRight: (props) => (
+        <HeaderBackButton
+          onPress={() => {
+            if (product) {
+              updateProduct({
+                id: product.id,
+                title,
+                imageUrl,
+                description
+              });
+            } else {
+              createProduct({
+                title,
+                imageUrl,
+                price,
+                description
+              });
+            }
+            navigation.navigate('UserProducts');
+          }}
+          backImage={() => (
+            <Ionicons
+              name={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+              size={23}
+              color={Platform.OS === 'android' ? 'white' : Colors.primary}
+            />
+          )}
+        />
+      )
+    });
+  }, [title, imageUrl, price, description]);
 
   return (
     <ScrollView>
@@ -43,8 +81,8 @@ const EditProductScreen = ({ navigation, route, userProducts }) => {
           <Text style={styles.label}>Price</Text>
           <TextInput
             style={styles.input}
-            value={price}
-            onChangeText={(value) => setPrice(value)}
+            value={price.toString()}
+            onChangeText={(value) => setPrice(parseInt(value))}
           />
         </View>}
         <View style={styles.formControl}>
@@ -83,11 +121,11 @@ const mapStateToProps = state => ({
   userProducts: state.products.userProducts
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   createProduct: (title, imageUrl, price, description) => dispatch(createProduct((title, imageUrl, price, description))),
-//   deleteProduct: (id) => dispatch(deleteProduct(id))
-// });
+const mapDispatchToProps = dispatch => ({
+  createProduct: ({ title, imageUrl, price, description }) => dispatch(createProduct({ title, imageUrl, price, description })),
+  updateProduct: ({ id, title, imageUrl, description }) => dispatch(updateProduct({ id, title, imageUrl, description }))
+});
 
-export default connect(mapStateToProps, undefined)(EditProductScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(EditProductScreen);
 
 
