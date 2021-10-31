@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FlatList, Button } from 'react-native';
+import { FlatList, Button, Alert } from 'react-native';
 
 import ProductCard from '../../components/shop/ProductCard';
 
@@ -27,7 +27,22 @@ const UserProductsScreen = ({ navigation, userProducts, deleteProduct }) => {
           />
           <Button
             color={Colors.primary}
-            onPress={() => deleteProduct(item.id)}
+            onPress={() => {
+              Alert.alert(
+                'Delete Item',
+                'Are you sure you want to delete this item?',
+                [
+                  {
+                    text: 'No',
+                    style: 'default'
+                  },
+                  {
+                    text: 'Yes',
+                    style: 'destructive',
+                    onPress: () => deleteProduct(item.id)
+                  }
+                ])
+            }}
             title="Delete"
           />
         </ProductCard>

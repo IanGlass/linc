@@ -17,28 +17,36 @@ const productsReducer = (state = initialState, action) => {
       };
 
     case 'CREATE_PRODUCT':
+      const newProduct = new Product(
+        new Date().toString(),
+        'u1',
+        action.imageUrl,
+        action.title,
+        action.description,
+        action.price
+      );
+
       return {
         ...state,
-        userProducts: _.concat(state.userProducts, new Product(
-          new Date().toString(),
-          'u1',
-          action.imageUrl,
-          action.title,
-          action.description,
-          action.price
-        ))
+        availableProducts: _.concat(state.availableProducts, newProduct),
+        userProducts: _.concat(state.userProducts, newProduct)
       }
 
     case 'UPDATE_PRODUCT':
-      const productIndex = _.findIndex(state.userProducts, (product) => product.id === action.pid);
-      state.userProducts[productIndex].title = action.title;
-      state.userProducts[productIndex].imageUrl = action.imageUrl;
-      state.userProducts[productIndex].description = action.description;
+      const userProductIndex = _.findIndex(state.userProducts, (product) => product.id === action.pid);
+      const availableProductIndex = _.findIndex(state.availableProducts, (product) => product.id === action.pid);
 
-      console.log(action)
+      state.userProducts[userProductIndex].title = action.title;
+      state.userProducts[userProductIndex].imageUrl = action.imageUrl;
+      state.userProducts[userProductIndex].description = action.description;
+
+      state.availableProducts[availableProductIndex].title = action.title;
+      state.availableProducts[availableProductIndex].imageUrl = action.imageUrl;
+      state.availableProducts[availableProductIndex].description = action.description;
 
       return {
         ...state,
+        availableProducts: state.availableProducts,
         userProducts: state.userProducts
       }
 
