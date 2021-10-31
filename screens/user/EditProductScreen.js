@@ -2,11 +2,10 @@ import React, { useEffect, useReducer } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
-  Text,
-  TextInput,
   ScrollView,
   StyleSheet,
-  Alert
+  Alert,
+  KeyboardAvoidingView
 } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
 import { Platform } from 'react-native';
@@ -110,66 +109,72 @@ const EditProductScreen = ({
   }, [formState.inputValues]);
 
   return (
-    <ScrollView>
-      <View style={styles.form}>
-        <Input
-          value={formState.inputValues.title}
-          onChangeText={(value) => dispatch({
-            type: 'UPDATE',
-            value,
-            key: 'title',
-            validity: value.trim() ? true : false
-          })}
-          label='Title'
-          isValid={formState.inputValidities.title}
-          autoCapitalize='sentences'
-          autoCorrect
-        />
-
-        <Input
-          value={formState.inputValues.imageUrl}
-          onChangeText={(value) => dispatch({
-            type: 'UPDATE',
-            value,
-            key: 'imageUrl',
-            validity: value.trim() ? true : false
-          })}
-          label='Image URL'
-          isValid={formState.inputValidities.imageUrl}
-          returnKeyType='next'
-        />
-
-        {!_.get(product, 'price') &&
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior="padding"
+      keyboardVerticalOffset={5}
+    >
+      <ScrollView>
+        <View style={styles.form}>
           <Input
-            value={formState.inputValues.price.toString()}
+            value={formState.inputValues.title}
             onChangeText={(value) => dispatch({
               type: 'UPDATE',
-              value: parseInt(value),
-              key: 'price',
-              validity: value > 0 ? true : false
+              value,
+              key: 'title',
+              validity: value.trim() ? true : false
             })}
-            label='Price'
-            isValid={formState.inputValidities.price}
-            keyboardType='decimal-pad'
+            label='Title'
+            isValid={formState.inputValidities.title}
+            autoCapitalize='sentences'
+            autoCorrect
+          />
+
+          <Input
+            value={formState.inputValues.imageUrl}
+            onChangeText={(value) => dispatch({
+              type: 'UPDATE',
+              value,
+              key: 'imageUrl',
+              validity: value.trim() ? true : false
+            })}
+            label='Image URL'
+            isValid={formState.inputValidities.imageUrl}
             returnKeyType='next'
           />
-        }
-        <Input
-          value={formState.inputValues.description}
-          onChangeText={(value) => dispatch({
-            type: 'UPDATE',
-            value,
-            key: 'description',
-            validity: value.trim() ? true : false
-          })}
-          label='Description'
-          multiline
-          isValid={formState.inputValidities.description}
-          numberOfLines={3}
-          returnKeyType='next'
-        />
-      </View>
-    </ScrollView>
+
+          {!_.get(product, 'price') &&
+            <Input
+              value={formState.inputValues.price.toString()}
+              onChangeText={(value) => dispatch({
+                type: 'UPDATE',
+                value: parseInt(value),
+                key: 'price',
+                validity: value > 0 ? true : false
+              })}
+              label='Price'
+              isValid={formState.inputValidities.price}
+              keyboardType='decimal-pad'
+              returnKeyType='next'
+            />
+          }
+          <Input
+            value={formState.inputValues.description}
+            onChangeText={(value) => dispatch({
+              type: 'UPDATE',
+              value,
+              key: 'description',
+              validity: value.trim() ? true : false
+            })}
+            label='Description'
+            multiline
+            isValid={formState.inputValidities.description}
+            numberOfLines={3}
+            returnKeyType='next'
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
