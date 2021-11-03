@@ -50,6 +50,13 @@ const productsReducer = (state = initialState, action) => {
         userProducts: state.userProducts
       }
 
+    case 'SET_PRODUCTS':
+      return {
+        ...state,
+        availableProducts: action.products,
+        userProducts: _.filter(action.products, (product) => product.ownerId === 'u1')
+      }
+
     default:
       return state;
   }

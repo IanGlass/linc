@@ -1,5 +1,5 @@
 // Shows all products and allows us to add to cart and show details
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
@@ -11,10 +11,15 @@ import {
 import ProductCard from '../../components/shop/ProductCard';
 
 import { addToCart } from '../../store/actions/cart';
+import { fetchProducts } from '../../store/actions/products';
 
 import Colors from '../../constants/Colors';
 
-const ProductsScreen = ({ navigation, products, addToCart }) => {
+const ProductsScreen = ({ navigation, products, addToCart, fetchProducts }) => {
+  useEffect(() => {
+    fetchProducts()
+  }, []);
+
   return (
     <View style={{ height: '100%' }}>
       <View style={styles.list}>
@@ -61,7 +66,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addToCart: (product) => dispatch(addToCart(product))
+  addToCart: (product) => dispatch(addToCart(product)),
+  fetchProducts: () => dispatch(fetchProducts())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsScreen);

@@ -1,7 +1,31 @@
-export const addToCart = (product) => ({
-  type: 'ADD_TO_CART',
-  product
-});
+import _ from 'lodash';
+import Product from '../../models/product';
+
+export const fetchProducts = () => {
+  return async (dispatch) => {
+    const response = await fetch(
+      'https://linc-dc207-default-rtdb.firebaseio.com/products.json', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+
+    dispatch({
+      type: 'SET_PRODUCTS',
+      products: _.map(data, (product, id) => new Product(
+        id,
+        'u1',
+        product.imageUrl,
+        product.title,
+        product.description,
+        product.price
+      ))
+    });
+  };
+};
 
 export const deleteProduct = (id) => ({
   type: 'DELETE_PRODUCT',
