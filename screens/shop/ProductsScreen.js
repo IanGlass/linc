@@ -1,10 +1,12 @@
 // Shows all products and allows us to add to cart and show details
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
   FlatList,
   Button,
+  ActivityIndicator,
+  Text,
   StyleSheet
 } from 'react-native';
 
@@ -14,20 +16,69 @@ import { addToCart } from '../../store/actions/cart';
 import { fetchProducts } from '../../store/actions/products';
 
 import Colors from '../../constants/Colors';
+import _ from 'lodash';
 
 const ProductsScreen = ({ navigation, products, addToCart, fetchProducts }) => {
-  useEffect(() => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const loadProducts = () => {
+    setError('');
+    setLoading(true);
     fetchProducts()
+      .then(() => setLoading(false))
+      .catch((error) => {
+        setLoading(false);
+        setError(error.message);
+      })
+  }
+
+  useEffect(() => {
+    loadProducts();
   }, []);
 
+  if (loading) {
+    return (
+      <View style={styles.screen}>
+        <ActivityIndicator
+          style={styles.loader}
+          size="large"
+          color={Colors.primary}
+        />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text>{error}</Text>
+        <Button
+          color={Colors.primary}
+          title="Try Again"
+          onPress={() => loadProducts()}
+        />
+      </View>
+    )
+  }
+
+  if (!loading && _.isEmpty(products)) {
+    return (
+      <View style={styles.screen}>
+        <Text>No products found. Maybe start adding some!</Text>
+      </View>
+    );
+  }
+
   return (
-    <View style={{ height: '100%' }}>
-      <View style={styles.list}>
-        <FlatList
-          data={products}
-          renderItem={({ item }) => (
+    <View style={styles.screen}>
+      <FlatList
+        data={products}
+        renderItem={
+          ({ item }) => (
             <ProductCard
-              onSelect={() => navigation.navigate('ProductDetails', { productId: item.id })}
+              onSelect={() => navigation.navigate('ProductDetails', { productId: item.id })
+              }
               title={item.title}
               uri={item.imageUrl}
               price={item.price}
@@ -44,20 +95,27 @@ const ProductsScreen = ({ navigation, products, addToCart, fetchProducts }) => {
               />
             </ProductCard>
           )}
-          keyExtractor={(product) => product.id}
-          style={{ width: '100%' }}
-        />
-      </View>
+        keyExtractor={(product) => product.id}
+        style={{ width: '100%' }}
+      />
     </View>
   )
 };
 
 const styles = StyleSheet.create({
-  list: {
+  screen: {
+    height: '100%'
+  },
+  centered: {
+    height: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  loader: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20
+    alignItems: 'center'
   }
 });
 
