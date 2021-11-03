@@ -1,10 +1,11 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
   ScrollView,
   StyleSheet,
   Alert,
+  ActivityIndicator,
   KeyboardAvoidingView
 } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
@@ -12,6 +13,8 @@ import { Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import Input from '../../components/UI/Input';
+
+import Colors from '../../constants/Colors';
 
 import _ from 'lodash';
 import { createProduct, updateProduct } from '../../store/actions/products';
@@ -44,6 +47,9 @@ const EditProductScreen = ({
   createProduct,
   updateProduct
 }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const product = _.find(userProducts, (product) => product.id === _.get(route, 'params.productId'));
 
   const [formState, dispatch] = useReducer(formReducer, {
@@ -69,12 +75,21 @@ const EditProductScreen = ({
         <HeaderBackButton
           onPress={() => {
             if (product) {
+              setLoading(true);
               updateProduct({
                 id: product.id,
                 title: formState.inputValues.title,
                 imageUrl: formState.inputValues.imageUrl,
                 description: formState.inputValues.description
-              });
+              })
+                .then(() => {
+                  setLoading(false);
+                  navigation.navigate('UserProducts');
+                })
+                .catch((error) => {
+                  setLoading(false);
+                  setError(error.message);
+                })
             } else {
               if (!formState.formIsValid) {
                 Alert.alert(
@@ -87,14 +102,22 @@ const EditProductScreen = ({
                   ]);
                 return;
               }
+              setLoading(true);
               createProduct({
                 title: formState.inputValues.title,
                 imageUrl: formState.inputValues.imageUrl,
                 price: formState.inputValues.price,
                 description: formState.inputValues.description
-              });
+              })
+                .then(() => {
+                  setLoading(false);
+                  navigation.navigate('UserProducts');
+                })
+                .catch((error) => {
+                  setLoading(false);
+                  setError(error.message);
+                })
             }
-            navigation.navigate('UserProducts');
           }}
           backImage={() => (
             <Ionicons
@@ -108,9 +131,34 @@ const EditProductScreen = ({
     });
   }, [formState.inputValues]);
 
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          style={styles.loader}
+          size="large"
+          color={Colors.primary}
+        />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text>{error}</Text>
+        <Button
+          color={Colors.primary}
+          title="Try Again"
+          onPress={() => loadProducts()}
+        />
+      </View>
+    )
+  }
+
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       behavior="padding"
       keyboardVerticalOffset={5}
     >
@@ -181,6 +229,17 @@ const EditProductScreen = ({
 const styles = StyleSheet.create({
   form: {
     margin: 20
+  },
+  centered: {
+    height: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
