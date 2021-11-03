@@ -31,10 +31,26 @@ export const fetchProducts = () => {
   };
 };
 
-export const deleteProduct = (id) => ({
-  type: 'DELETE_PRODUCT',
-  id
-});
+export const deleteProduct = (id) => {
+  return async (dispatch) => {
+    const response = await fetch(
+      `https://linc-dc207-default-rtdb.firebaseio.com/products/${id}.json`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Something went wrong!');
+    }
+
+    dispatch({
+      type: 'DELETE_PRODUCT',
+      id
+    });
+  };
+};
 
 export const createProduct = ({ title, imageUrl, price, description }) => {
   return async (dispatch) => {
@@ -65,10 +81,31 @@ export const createProduct = ({ title, imageUrl, price, description }) => {
   };
 };
 
-export const updateProduct = ({ id, title, imageUrl, description }) => ({
-  type: 'UPDATE_PRODUCT',
-  pid: id,
-  title,
-  imageUrl,
-  description
-});
+export const updateProduct = ({ id, title, imageUrl, description }) => {
+  return async (dispatch) => {
+    const response = await fetch(
+      `https://linc-dc207-default-rtdb.firebaseio.com/products/${id}.json`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title,
+        imageUrl,
+        description
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Something went wrong!');
+    }
+
+    dispatch({
+      type: 'UPDATE_PRODUCT',
+      pid: id,
+      title,
+      imageUrl,
+      description
+    });
+  };
+};
