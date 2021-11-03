@@ -78,6 +78,8 @@ const ProductsScreen = ({ navigation, products, addToCart, fetchProducts }) => {
   return (
     <View style={styles.screen}>
       <FlatList
+        onRefresh={() => loadProducts()}
+        refreshing={loading}
         data={products}
         renderItem={
           ({ item }) => (
