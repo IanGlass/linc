@@ -1,8 +1,8 @@
 // List items and show total sum, delete item and place an order.
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { View, Text, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Button, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 
 import CartItem from '../../components/shop/CartItem';
 
@@ -17,10 +17,40 @@ const CartScreen = ({
   removeFromCart,
   addOrder
 }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const cartArray = _.map(cart, (item, key) => ({
     id: key,
     ...item
   }));
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert(
+        'An error occurred',
+        error.message,
+        [
+          {
+            text: ' OK',
+            onPress: () => setError(null)
+          }
+        ]
+      )
+    }
+  }, [error]);
+
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          style={styles.loader}
+          size="large"
+          color={Colors.primary}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.screen}>
@@ -32,7 +62,17 @@ const CartScreen = ({
           disabled={cartArray.length === 0}
           color={Colors.accent}
           title="Order Now"
-          onPress={() => addOrder(cartArray, totalAmount)}
+          onPress={() => {
+            setLoading(true);
+            addOrder(cartArray, totalAmount)
+              .then(() => {
+                setLoading(false);
+              })
+              .catch((error) => {
+                setLoading(false);
+                setError(error.message);
+              })
+          }}
         />
       </View>
       <FlatList
@@ -73,6 +113,17 @@ const styles = StyleSheet.create({
   },
   amount: {
     color: Colors.primary
+  },
+  centered: {
+    height: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

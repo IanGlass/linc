@@ -144,7 +144,7 @@ const EditProductScreen = ({
         ]
       )
     }
-  }, [error])
+  }, [error]);
 
   if (loading) {
     return (

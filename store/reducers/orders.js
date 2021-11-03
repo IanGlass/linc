@@ -12,10 +12,10 @@ export default (state = initialState, action) => {
       return {
         ...state,
         orders: _.concat(state.orders, new Order(
-          new Date().toString(),
+          action.id,
           action.cartItems,
           action.totalAmount,
-          new Date()
+          action.date
         ))
       }
 
