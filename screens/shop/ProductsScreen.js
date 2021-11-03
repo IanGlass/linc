@@ -40,7 +40,7 @@ const ProductsScreen = ({ navigation, products, addToCart, fetchProducts }) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => loadProducts());
     return unsubscribe;
-  }, [loadProducts])
+  }, [loadProducts]);
 
   if (loading) {
     return (

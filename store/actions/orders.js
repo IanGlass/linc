@@ -1,5 +1,8 @@
-export const addOrder = (cartItems, totalAmount) => {
+import _ from 'lodash';
 
+import Order from '../../models/order';
+
+export const addOrder = (cartItems, totalAmount) => {
   return async (dispatch) => {
     const date = new Date().toISOString();
 
@@ -31,3 +34,31 @@ export const addOrder = (cartItems, totalAmount) => {
     });
   };
 };
+
+export const fetchOrders = () => {
+  return async (dispatch) => {
+    const response = await fetch(
+      `https://linc-dc207-default-rtdb.firebaseio.com/orders/u1.json`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Something went wrong!');
+    }
+
+    const data = await response.json();
+
+    dispatch({
+      type: 'SET_ORDERS',
+      orders: _.map(data, (order, id) => new Order(
+        id,
+        order.cartItems,
+        order.totalAmount,
+        new Date(order.date)
+      ))
+    });
+  };
+}
