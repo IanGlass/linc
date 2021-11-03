@@ -37,6 +37,11 @@ const ProductsScreen = ({ navigation, products, addToCart, fetchProducts }) => {
     loadProducts();
   }, []);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => loadProducts());
+    return unsubscribe;
+  }, [loadProducts])
+
   if (loading) {
     return (
       <View style={styles.screen}>

@@ -4,7 +4,7 @@ import Product from '../../models/product';
 export const fetchProducts = () => {
   return async (dispatch) => {
     const response = await fetch(
-      'https://linc-dc207-default-rtdb.firebaseio.com/products.jon', {
+      'https://linc-dc207-default-rtdb.firebaseio.com/products.json', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
