@@ -131,6 +131,21 @@ const EditProductScreen = ({
     });
   }, [formState.inputValues]);
 
+  useEffect(() => {
+    if (error) {
+      Alert.alert(
+        'An error occurred',
+        error.message,
+        [
+          {
+            text: ' OK',
+            onPress: () => setError(null)
+          }
+        ]
+      )
+    }
+  }, [error])
+
   if (loading) {
     return (
       <View style={styles.centered}>
@@ -141,19 +156,6 @@ const EditProductScreen = ({
         />
       </View>
     );
-  }
-
-  if (error) {
-    return (
-      <View style={styles.centered}>
-        <Text>{error}</Text>
-        <Button
-          color={Colors.primary}
-          title="Try Again"
-          onPress={() => loadProducts()}
-        />
-      </View>
-    )
   }
 
   return (

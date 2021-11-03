@@ -68,6 +68,10 @@ export const createProduct = ({ title, imageUrl, price, description }) => {
       })
     });
 
+    if (!response.ok) {
+      throw new Error('Something went wrong!');
+    }
+
     const data = await response.json();
 
     dispatch({
